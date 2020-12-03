@@ -16,6 +16,20 @@ from flaskr.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+# registers a function that runs before the view function, no matter what URL is requested
+@bp.before_app_request
+# checks if a user id is stored in the session and gets that user’s data from the database, storing it on g.user, which lasts for the length of the request
+def load_logged_in_user():
+    user_id = session.get("user_id")
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = (
+            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+        )
+
+
 # associates the URL /register with the register view function
 @bp.route("/register", methods=("GET", "POST"))
 def register():
@@ -49,6 +63,7 @@ def register():
     return render_template("auth/register.html")
 
 
+# associates the URL /register with the login view function
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
