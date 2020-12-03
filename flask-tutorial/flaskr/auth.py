@@ -63,7 +63,7 @@ def register():
     return render_template("auth/register.html")
 
 
-# associates the URL /register with the login view function
+# associates the URL /login with the login view function
 @bp.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
@@ -88,3 +88,10 @@ def login():
         flash(error)
 
     return render_template("auth/login.html")
+
+
+# associates the URL /logout with the logout view function
+@bp.route("/logout")
+def logout():
+    session.clear()
+    return redirect(url_for("index"))
