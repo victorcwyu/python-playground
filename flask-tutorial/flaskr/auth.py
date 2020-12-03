@@ -16,6 +16,18 @@ from flaskr.db import get_db
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+# returns a new view function that wraps the original view it’s applied to, checking if a user is loaded
+def login_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        if g.user is None:
+            return redirect(url_for("auth.login"))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+
 # registers a function that runs before the view function, no matter what URL is requested
 @bp.before_app_request
 # checks if a user id is stored in the session and gets that user’s data from the database, storing it on g.user, which lasts for the length of the request
