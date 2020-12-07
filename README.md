@@ -1,3 +1,11 @@
 # python-playground
 
-## This repository is a storage space for files created for the purpose of learning Python.
+## A storage space for projects created for the purpose of learning Python.
+
+### Hello, World
+- A minimal Python application
+
+### Flaskr
+- A blogging application built with Python and Flask from 
+[the official Flask documentation tutorial](https://flask.palletsprojects.com/en/1.1.x/tutorial/#tutorial)
+
