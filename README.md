@@ -6,6 +6,6 @@
 - A minimal Python application
 
 ### Flaskr
-- A blogging application built with Python and Flask from 
+- A blogging application built with Python and Flask following 
 [the official Flask documentation tutorial](https://flask.palletsprojects.com/en/1.1.x/tutorial/#tutorial)
 
