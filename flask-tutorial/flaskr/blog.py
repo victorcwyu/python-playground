@@ -18,31 +18,6 @@ def index():
     return render_template("blog/index.html", posts=posts)
 
 
-@bp.route("/create", methods=("GET", "POST"))
-@login_required
-def create():
-    if request.method == "POST":
-        title = request.form["title"]
-        body = request.form["body"]
-        error = None
-
-        if not title:
-            error = "Title is required."
-
-        if error is not None:
-            flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                "INSERT INTO post (title, body, author_id)" " VALUES (?, ?, ?)",
-                (title, body, g.user["id"]),
-            )
-            db.commit()
-            return redirect(url_for("blog.index"))
-
-    return render_template("blog/create.html")
-
-
 # can be used to get a post without checking the author
 def get_post(id, check_author=True):
     post = (
@@ -65,10 +40,35 @@ def get_post(id, check_author=True):
     return post
 
 
-@bp.route("/<int:id>/update", methods=("GET", "POST"))
+# create a new post for the current user
+# or update a post if the current user is the author
+@bp.route("/<int:id>/post", methods=("GET", "POST"))
 @login_required
-def update(id):
-    post = get_post(id)
+def post(id):
+    def create():
+        db = get_db()
+        db.execute(
+            "INSERT INTO post (title, body, author_id)" " VALUES (?, ?, ?)",
+            (title, body, g.user["id"]),
+        )
+        db.commit()
+
+    def update():
+        db = get_db()
+        db.execute(
+            "UPDATE post SET title = ?, body = ?" " WHERE id = ?",
+            (title, body, id),
+        )
+        db.commit()
+
+    # since AUTOINCREMENT is used for post id,
+    # setting id to 0 will allow one view and template
+    # to be used for creating and updating posts
+    if id == 0:
+        post = None
+
+    else:
+        post = get_post(id)
 
     if request.method == "POST":
         title = request.form["title"]
@@ -80,15 +80,16 @@ def update(id):
 
         if error is not None:
             flash(error)
-        else:
-            db = get_db()
-            db.execute(
-                "UPDATE post SET title = ?, body = ?" " WHERE id = ?", (title, body, id)
-            )
-            db.commit()
-            return redirect(url_for("blog.index"))
 
-    return render_template("blog/update.html", post=post)
+        if id == 0:
+            create()
+
+        else:
+            update()
+
+        return redirect(url_for("blog.index"))
+
+    return render_template("blog/post.html", post=post)
 
 
 @bp.route("/<int:id>/delete", methods=("POST",))
