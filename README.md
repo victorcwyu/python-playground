@@ -9,3 +9,6 @@
 - A blogging application built with Python and Flask following 
 [the official Flask documentation tutorial](https://flask.palletsprojects.com/en/1.1.x/tutorial/#tutorial)
 
+### Learn Python
+- Learning by completing exercises from
+[the LearnPython.org interactive Python tutorial](https://www.learnpython.org/en/Welcome)
