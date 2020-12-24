@@ -12,3 +12,7 @@
 ### Learn Python
 - Learning by completing exercises from
 [the LearnPython.org interactive Python tutorial](https://www.learnpython.org/en/Welcome)
+
+### Python Crash Course
+- Learning by completing exercises from
+[the Lighthouse Labs Free Python Crash Course](https://free-courses.lighthouselabs.ca/courses/programming-essentials-with-python)
