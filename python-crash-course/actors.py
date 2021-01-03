@@ -4,10 +4,10 @@ roles = ["hero", "villain"]
 
 featuring = []
 
-for person in actors:
-    match = person + " as " + roles[actors.index(person)]
+for index, person in enumerate(actors):
+    match = person + " as " + roles[index]
     featuring.append(match)
 
-print("Featuring:")
+print("Featuring: \n=_=_=_=_=_=_=_=")
 for actor in featuring:
     print(actor)
