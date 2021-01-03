@@ -6,4 +6,8 @@ featuring = []
 
 for person in actors:
     match = person + " as " + roles[actors.index(person)]
-    print(match)
+    featuring.append(match)
+
+print("Featuring:")
+for actor in featuring:
+    print(actor)
